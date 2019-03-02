@@ -1,8 +1,10 @@
 package com.example.hacktech2019;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,23 +21,14 @@ public class MainActivity extends AppCompatActivity {
         if (isFirstRun) {
             //show start activity
             startActivity(new Intent(MainActivity.this, Setup.class));
-            Toast.makeText(MainActivity.this, "First Run", Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this, "First Run", Toast.LENGTH_LONG).show();
         }
         setContentView(R.layout.activity_main);
 
-        int age = getSharedPreferences("USER_INFO", MODE_PRIVATE).getInt("Age", 0);
-        int weight = getSharedPreferences("USER_INFO", MODE_PRIVATE).getInt("Weight", 0);
-        String name = getSharedPreferences("USER_INFO", MODE_PRIVATE).getString("Name", "");
+    }
 
-
-        TextView ageDisp = findViewById(R.id.aBox);
-        ageDisp.setText("Age: " + age);
-
-        TextView wDisp = findViewById(R.id.wBox);
-        wDisp.setText("Weight: " + weight);
-
-        TextView nDisp = findViewById(R.id.nBox);
-        nDisp.setText(name);
-
+    public void onSettingsClick(View view) {
+        startActivity(new Intent(MainActivity.this, Setup.class));
+        setContentView(R.layout.activity_main);
     }
 }
