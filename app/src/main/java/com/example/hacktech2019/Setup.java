@@ -21,9 +21,6 @@ public class Setup extends AppCompatActivity {
     int weight;
     String gender;
 
-    TextView errorBox = (TextView) findViewById(R.id.genderError);
-    String genderErrorMessage = "Please select one";
-
     public void getUserValues(){
         EditText nameIn = (EditText) findViewById(R.id.nameInput);
         name = nameIn.getText().toString();
@@ -62,18 +59,26 @@ public class Setup extends AppCompatActivity {
 
         }
         if(numChecked > 1){
-            errorBox.setText(genderErrorMessage);
+            TextView errorBox = (TextView) findViewById(R.id.genderError);
+            errorBox.setText(R.string.gender_error_message);
         }
     }
 
     public void setPersonalInfo(View view){
         this.getUserValues();
+
         if(gender == null) {
-            errorBox.setText(genderErrorMessage);
+            TextView errorBox = (TextView) findViewById(R.id.genderError);
+            errorBox.setText(R.string.gender_error_message);
         }
+
         // Might want to do some error handling/data checking here in the future
-        Intent startMain = new Intent(this, MainActivity.class);
-        startActivity(startMain);
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).commit();
+        getSharedPreferences("USER_INFO", MODE_PRIVATE).edit().putString("Name", name).commit();
+        getSharedPreferences("USER_INFO", MODE_PRIVATE).edit().putInt("Age", age).commit();
+        getSharedPreferences("USER_INFO", MODE_PRIVATE).edit().putInt("Weight", weight).commit();
+        getSharedPreferences("USER_INFO", MODE_PRIVATE).edit().apply();
+        finish();
     }
 }
 
