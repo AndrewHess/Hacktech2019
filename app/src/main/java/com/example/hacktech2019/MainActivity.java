@@ -36,5 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         TextView nDisp = findViewById(R.id.nBox);
         nDisp.setText(name);
+
     }
 }
