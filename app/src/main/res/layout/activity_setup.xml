@@ -14,8 +14,8 @@
         android:layout_marginLeft="104dp"
         android:layout_marginTop="152dp"
         android:ems="10"
+        android:hint="Name"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,8 +27,8 @@
         android:layout_marginLeft="104dp"
         android:layout_marginTop="208dp"
         android:ems="10"
+        android:hint="Age (yrs)"
         android:inputType="textPersonName"
-        android:text="Age (yrs)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,8 +40,8 @@
         android:layout_marginLeft="104dp"
         android:layout_marginTop="264dp"
         android:ems="10"
+        android:hint="Weight (lbs)"
         android:inputType="textPersonName"
-        android:text="Weight (lbs)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
