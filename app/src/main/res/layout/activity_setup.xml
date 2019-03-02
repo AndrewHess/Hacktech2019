@@ -10,9 +10,9 @@
         android:id="@+id/nameInput"
         android:layout_width="217dp"
         android:layout_height="0dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginTop="152dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
@@ -23,9 +23,9 @@
         android:id="@+id/ageInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="168dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginTop="208dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Age (yrs)"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="104dp"
         android:layout_marginLeft="104dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginTop="264dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Weight (lbs)"
@@ -78,12 +78,13 @@
 
     <TextView
         android:id="@+id/setupHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginLeft="184dp"
-        android:layout_marginTop="36dp"
-        android:text="Set up"
+        android:layout_width="247dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="32dp"
+        android:text="Life of the Party!"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -108,5 +109,15 @@
         android:layout_marginTop="348dp"
         app:layout_constraintStart_toEndOf="@+id/male"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="319dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:text="Party hard tonight ~ Wake up happy tomorrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setupHeader" />
 
 </android.support.constraint.ConstraintLayout>
