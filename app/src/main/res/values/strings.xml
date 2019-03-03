@@ -3,4 +3,7 @@
     <string name="gender_error_message">Please enter a gender!</string>
     <string name="buddy_mail_message">Friend\'s Email</string>
     <string name="my_mail_message">Email</string>
+    <string name="drink_counter">0</string>
+    <string name="alcohol_button">Alcohol</string>
+    <string name="water_button">Water</string>
 </resources>

@@ -30,4 +30,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, Setup.class));
         setContentView(R.layout.activity_main);
     }
+
+    /** Increment the alcohol counter. */
+    public void onAlcoholClick(View view) {
+        // Get the counter.
+        TextView textView = (TextView) findViewById(R.id.alcohol_counter);
+
+        Integer cur = Integer.parseInt(textView.getText().toString());
+        textView.setText(Integer.toString(cur + 1));
+    }
+
+    /** Increment the water counter. */
+    public void onWaterClick(View view) {
+        // Get the counter.
+        TextView textView = (TextView) findViewById(R.id.water_counter);
+
+        Integer cur = Integer.parseInt(textView.getText().toString());
+        textView.setText(Integer.toString(cur + 1));
+    }
 }
