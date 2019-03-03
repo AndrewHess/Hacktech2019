@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 public class Setup extends AppCompatActivity {
     String name;
-    int age;
     int weight;
     String number;
     String gender;
@@ -26,7 +25,6 @@ public class Setup extends AppCompatActivity {
 
     public void setUserValues(){
         SharedPreferences info = getSharedPreferences("USER_INFO", MODE_PRIVATE);
-        age = info.getInt("Age", 0);
         weight = info.getInt("Weight", 0);
         name = info.getString("Name", "");
         gender = info.getString("Gender", "");
@@ -37,9 +35,6 @@ public class Setup extends AppCompatActivity {
         EditText nameIn = (EditText) findViewById(R.id.nameInput);
         System.out.println("Setting name");
         nameIn.setText(name);
-
-        EditText ageIn = (EditText) findViewById(R.id.ageInput);
-        ageIn.setText(Integer.toString(age));
 
         EditText weightIn = (EditText) findViewById(R.id.weightInput);
         weightIn.setText(Integer.toString(weight));
@@ -64,9 +59,6 @@ public class Setup extends AppCompatActivity {
 
         EditText buddyMailIn = (EditText) findViewById(R.id.buddyMailInput);
         buddyMail = buddyMailIn.getText().toString();
-
-        EditText ageIn = (EditText) findViewById(R.id.ageInput);
-        age = Integer.parseInt(ageIn.getText().toString());
 
         EditText numberIn = (EditText) findViewById(R.id.numberInput);
         number = numberIn.getText().toString();
@@ -111,7 +103,6 @@ public class Setup extends AppCompatActivity {
         edit.putString("MyMail", myMail).commit();
         edit.putString("Number", number).commit();
         edit.putString("BuddyMail", buddyMail).commit();
-        edit.putInt("Age", age).commit();
         edit.putInt("Weight", weight).commit();
         edit.apply();
 
