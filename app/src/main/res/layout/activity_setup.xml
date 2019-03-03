@@ -28,7 +28,7 @@
         android:layout_marginTop="212dp"
         android:ems="10"
         android:hint="Age (yrs)"
-        android:inputType="textPersonName"
+        android:inputType="numberSigned"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +41,7 @@
         android:layout_marginTop="272dp"
         android:ems="10"
         android:hint="Weight (lbs)"
-        android:inputType="textPersonName"
+        android:inputType="numberSigned"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +54,7 @@
         android:layout_marginTop="332dp"
         android:ems="10"
         android:hint="@string/my_mail_message"
-        android:inputType="textPersonName"
+        android:inputType="textWebEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,7 +67,7 @@
         android:layout_marginTop="396dp"
         android:ems="10"
         android:hint="@string/buddy_mail_message"
-        android:inputType="textPersonName"
+        android:inputType="textWebEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

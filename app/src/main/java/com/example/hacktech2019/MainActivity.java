@@ -48,4 +48,10 @@ public class MainActivity extends AppCompatActivity {
         Integer cur = Integer.parseInt(textView.getText().toString());
         textView.setText(Integer.toString(cur + 1));
     }
+
+    /** Send an email to the buddy. */
+    public void emailBuddy(View view) {
+        // Get the email.
+
+    }
 }
