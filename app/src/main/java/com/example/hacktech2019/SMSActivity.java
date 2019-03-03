@@ -24,7 +24,6 @@ public class SMSActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sms);
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkPermission()) {
@@ -35,7 +34,7 @@ public class SMSActivity extends AppCompatActivity {
         }
 
         number = getSharedPreferences("USER_INFO", MODE_PRIVATE).getString("Number", "");
-        nShots = getIntent().getExtras().getInt(MainActivity.EXTRA_CALL);
+        nShots = getIntent().getExtras().getInt(MainActivity.ALC_AMOUNT_KEY);
         text();
     }
 
@@ -48,7 +47,7 @@ public class SMSActivity extends AppCompatActivity {
 
             String message = "You've had a lot to drink (a whole " + nShots + " shots) ya dummy";
             smsManager.sendTextMessage(number, null, message, null, null);
-            Toast.makeText(SMSActivity.this, number, Toast.LENGTH_SHORT).show();
+            Toast.makeText(SMSActivity.this, "Text was sent to " + number, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(SMSActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
         }
