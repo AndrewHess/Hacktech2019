@@ -8,6 +8,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class Setup extends AppCompatActivity {
     String name;
     int weight;
@@ -111,5 +114,13 @@ public class Setup extends AppCompatActivity {
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().apply();
         finish();
     }
+
+    public String getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
+        String strDate = mdformat.format(calendar.getTime());
+        return strDate;
+    }
+
 }
 
