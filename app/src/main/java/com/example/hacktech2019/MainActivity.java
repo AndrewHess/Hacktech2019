@@ -1,17 +1,11 @@
 package com.example.hacktech2019;
 
-import android.Manifest;
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private final static int drinksPerNote = 8;
-    private final static int drinksPerEmail = 5;
+    private final static int drinksPerText = 5;
     public final static String EXTRA_CALL = "call";
     private static final int PERMISSION_REQUEST_CODE = 1;
     private NotificationUtils mNotificationUtils;
@@ -65,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onSettingsClick(View view) {
         startActivity(new Intent(MainActivity.this, Setup.class));
-        setContentView(R.layout.activity_main);
     }
 
     /**
@@ -78,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         if (alcAmount % drinksPerNote == drinksPerNote - 1) {
             makeNote();
         }
-        if (alcAmount % drinksPerEmail == drinksPerEmail - 1) {
-            textBuddyNshots(alcAmount);
+        if (alcAmount % drinksPerText == drinksPerText - 1) {
+            textBuddyNshots();
         }
         updateScreen();
     }
@@ -102,9 +95,9 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-    public void textBuddyNshots(int nDrinks) {
+    public void textBuddyNshots() {
         Intent textIntent = new Intent(this, SMSActivity.class);
-        textIntent.putExtra(EXTRA_CALL, nDrinks);
+        textIntent.putExtra(EXTRA_CALL, alcAmount);
         startActivity(textIntent);
     }
 
