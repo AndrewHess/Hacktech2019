@@ -3,27 +3,25 @@ package com.example.hacktech2019;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private final static int drinksPerNote = 8;
+    private final static int drinksPerEmail = 9;
     private final static int drinksPerText = 5;
-    public final static String EXTRA_CALL = "call";
-    private static final int PERMISSION_REQUEST_CODE = 1;
+
     private NotificationUtils mNotificationUtils;
+
     private int waterAmount = 0;
     private int alcAmount = 0;
-    private String ALC_AMOUNT_KEY = "alc";
-    private String WATER_AMOUNT_KEY = "water";
+
+    public final static String ALC_AMOUNT_KEY = "alc";
+    public final static String WATER_AMOUNT_KEY = "water";
 
     @TargetApi(Build.VERSION_CODES.O)
     @Override
@@ -72,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
             makeNote();
         }
         if (alcAmount % drinksPerText == drinksPerText - 1) {
-            textBuddyNshots();
+            textBuddy();
+        }
+        if (alcAmount % drinksPerEmail == drinksPerEmail - 1) {
+            emailBuddy();
         }
         updateScreen();
     }
@@ -95,60 +96,17 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-    public void textBuddyNshots() {
+    public void textBuddy() {
         Intent textIntent = new Intent(this, SMSActivity.class);
-        textIntent.putExtra(EXTRA_CALL, alcAmount);
+        textIntent.putExtra(ALC_AMOUNT_KEY, alcAmount);
         startActivity(textIntent);
     }
 
-    public void emailBuddyNshots(int nDrinks) {
-        SharedPreferences info = getSharedPreferences("USER_INFO", MODE_PRIVATE);
-        String drunkName = info.getString("Name", "");
-        String buddyEmail = info.getString("BuddyMail", "");
-
-        TextView textView = (TextView) findViewById(R.id.water_counter);
-        Integer nWater = Integer.parseInt(textView.getText().toString());
-
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("message/rfc822");
-        emailIntent.setData(Uri.parse(buddyEmail));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Update on " + drunkName);
-        String emailBodyDrinks = "Dear friend,\n\n" + drunkName + " has consumed " + nDrinks +
-                " drinks tonight, as well as " + nWater + " cups of water.\n\nThank you for " +
-                "keeping an eye on their safety.";
-        emailIntent.putExtra(Intent.EXTRA_TEXT, emailBodyDrinks);
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            finish();
-            Log.i("Sent", "");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.this, "Yike :(", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void emailBuddyBAC() {
-        SharedPreferences info = getSharedPreferences("USER_INFO", MODE_PRIVATE);
-        String drunkName = info.getString("Name", "");
-        String buddyEmail = info.getString("BuddyMail", "");
-
-        TextView textView = (TextView) findViewById(R.id.water_counter);
-        Integer nWater = Integer.parseInt(textView.getText().toString());
-
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setData(Uri.parse(buddyEmail));
-        emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Update on " + drunkName);
-        String emailBodyBAC = "Dear friend,\n\n" + drunkName + " 's blood alcohol content may " +
-                "be reaching " + bloodAlcohol() + ".\n\nThank you for " +
-                "keeping an eye on their safety.";
-        emailIntent.putExtra(Intent.EXTRA_TEXT, emailBodyBAC);
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            finish();
-            Log.i("Sent", "");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.this, "Yike :(", Toast.LENGTH_SHORT).show();
-        }
+    public void emailBuddy() {
+        Intent emailIntent = new Intent(this, EmailActivity.class);
+        emailIntent.putExtra(ALC_AMOUNT_KEY, alcAmount);
+        emailIntent.putExtra(WATER_AMOUNT_KEY, alcAmount);
+        startActivity(emailIntent);
     }
 
     @TargetApi(Build.VERSION_CODES.O)
