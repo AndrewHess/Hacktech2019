@@ -115,12 +115,6 @@ public class Setup extends AppCompatActivity {
         finish();
     }
 
-    public String getCurrentTime() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
-        String strDate = mdformat.format(calendar.getTime());
-        return strDate;
-    }
 
 }
 
