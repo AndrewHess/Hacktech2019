@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.sql.Time;
+import java.util.GregorianCalendar;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
     private int alcAmount = 0;
     private String ALC_AMOUNT_KEY = "alc";
     private String WATER_AMOUNT_KEY = "water";
+
+    public String timeLastDrink;
+    public String timeLastWater;
+
 
     @TargetApi(Build.VERSION_CODES.O)
     @Override
@@ -47,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
             waterAmount = savedInstanceState.getInt(WATER_AMOUNT_KEY);
         }
 
-        mNotificationUtils = new NotificationUtils(this);
-        updateScreen();
+//        mNotificationUtils = new NotificationUtils(this);
+//        updateScreen();
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -67,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.O)
     public void onAlcoholClick(View view) {
         // Get the counter.
+        timeLastDrink = getCurrentTime();
         alcAmount++;
         if (alcAmount % drinksPerNote == drinksPerNote - 1) {
             makeNote();
@@ -82,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onWaterClick(View view) {
         // Get the counter.
+        timeLastWater = getCurrentTime();
         waterAmount++;
         updateScreen();
     }
@@ -121,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
             finish();
             Log.i("Sent", "");
-        } catch (android.content.ActivityNotFoundException ex) {
+        } catch (Exception e) {
             Toast.makeText(MainActivity.this, "Yike :(", Toast.LENGTH_SHORT).show();
         }
     }
@@ -158,5 +171,14 @@ public class MainActivity extends AppCompatActivity {
                 getAndroidChannelNotification("Alcohol notice", notice, R.drawable.drinky_icon);
         mNotificationUtils.getManager().notify(101, nb.build());
     }
+
+    public String getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm");
+        String strDate = mdformat.format(calendar.getTime());
+        return(strDate);
+    }
+
+
 }
 
