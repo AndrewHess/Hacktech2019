@@ -1,13 +1,17 @@
 package com.example.hacktech2019;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +21,10 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static int drinksPerNote = 5;
+    private final static int drinksPerNote = 8;
     private final static int drinksPerEmail = 5;
+    public final static String EXTRA_CALL = "call";
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private NotificationUtils mNotificationUtils;
     private int waterAmount = 0;
     private int alcAmount = 0;
@@ -60,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, Setup.class));
     }
 
-    /** Increment the alcohol counter. */
+    /**
+     * Increment the alcohol counter.
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onAlcoholClick(View view) {
         // Get the counter.
@@ -68,13 +76,15 @@ public class MainActivity extends AppCompatActivity {
         if (alcAmount % drinksPerNote == drinksPerNote - 1) {
             makeNote();
         }
-        if(alcAmount % drinksPerEmail == drinksPerEmail - 1){
-            emailBuddyNshots(alcAmount);
+        if (alcAmount % drinksPerEmail == drinksPerEmail - 1) {
+            textBuddyNshots(alcAmount);
         }
         updateScreen();
     }
 
-    /** Increment the water counter. */
+    /**
+     * Increment the water counter.
+     */
     public void onWaterClick(View view) {
         // Get the counter.
         waterAmount++;
@@ -86,11 +96,17 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.water_counter)).setText(Integer.toString(waterAmount));
     }
 
-    public double bloodAlcohol(){
+    public double bloodAlcohol() {
         return 0;
     }
 
-    public void emailBuddyNshots(int nDrinks){
+    public void textBuddyNshots(int nDrinks) {
+        Intent textIntent = new Intent(this, SMSActivity.class);
+        textIntent.putExtra(EXTRA_CALL, nDrinks);
+        startActivity(textIntent);
+    }
+
+    public void emailBuddyNshots(int nDrinks) {
         SharedPreferences info = getSharedPreferences("USER_INFO", MODE_PRIVATE);
         String drunkName = info.getString("Name", "");
         String buddyEmail = info.getString("BuddyMail", "");
@@ -99,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         Integer nWater = Integer.parseInt(textView.getText().toString());
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("message/rfc822");
         emailIntent.setData(Uri.parse(buddyEmail));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Update on " + drunkName);
         String emailBodyDrinks = "Dear friend,\n\n" + drunkName + " has consumed " + nDrinks +
@@ -114,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void emailBuddyBAC(){
+    public void emailBuddyBAC() {
         SharedPreferences info = getSharedPreferences("USER_INFO", MODE_PRIVATE);
         String drunkName = info.getString("Name", "");
         String buddyEmail = info.getString("BuddyMail", "");
@@ -124,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse(buddyEmail));
+        emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Update on " + drunkName);
         String emailBodyBAC = "Dear friend,\n\n" + drunkName + " 's blood alcohol content may " +
                 "be reaching " + bloodAlcohol() + ".\n\nThank you for " +
@@ -146,3 +164,4 @@ public class MainActivity extends AppCompatActivity {
         mNotificationUtils.getManager().notify(101, nb.build());
     }
 }
+
