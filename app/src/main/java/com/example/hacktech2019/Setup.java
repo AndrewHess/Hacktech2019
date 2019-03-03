@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.content.Intent;
 import android.widget.TextView;
 
 public class Setup extends AppCompatActivity {
@@ -34,6 +33,7 @@ public class Setup extends AppCompatActivity {
         buddyMail = info.getString("BuddyMail", "");
 
         EditText nameIn = (EditText) findViewById(R.id.nameInput);
+        System.out.println("Setting name");
         nameIn.setText(name);
 
         EditText ageIn = (EditText) findViewById(R.id.ageInput);
@@ -87,24 +87,15 @@ public class Setup extends AppCompatActivity {
                 if(checked && numChecked == 0){
                     gender = "female";
                 }
-            else
-                // I'm lactose intolerant
-                break;
+                else
+                    // I'm lactose intolerant
+                    break;
 
-        }
-        if(numChecked > 1){
-            TextView errorBox = (TextView) findViewById(R.id.genderError);
-            errorBox.setText(R.string.gender_error_message);
         }
     }
 
     public void setPersonalInfo(View view){
         this.getUserValues();
-
-        if(gender == null) {
-            TextView errorBox = (TextView) findViewById(R.id.genderError);
-            errorBox.setText(R.string.gender_error_message);
-        }
 
         SharedPreferences.Editor edit = getSharedPreferences("USER_INFO", MODE_PRIVATE).edit();
         edit.putString("Name", name).commit();

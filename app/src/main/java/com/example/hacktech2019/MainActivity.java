@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         if (isFirstRun) {
             //show start activity
             startActivity(new Intent(MainActivity.this, Setup.class));
+//            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             //Toast.makeText(MainActivity.this, "First Run", Toast.LENGTH_LONG).show();
         }
         setContentView(R.layout.activity_main);
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onSettingsClick(View view) {
         startActivity(new Intent(MainActivity.this, Setup.class));
+        setContentView(R.layout.activity_main);
     }
 
     /** Increment the alcohol counter. */
