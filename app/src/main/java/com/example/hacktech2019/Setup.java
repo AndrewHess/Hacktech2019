@@ -12,6 +12,7 @@ public class Setup extends AppCompatActivity {
     String name;
     int age;
     int weight;
+    String number;
     String gender;
     String myMail;
     String buddyMail;
@@ -30,6 +31,7 @@ public class Setup extends AppCompatActivity {
         name = info.getString("Name", "");
         gender = info.getString("Gender", "");
         myMail = info.getString("MyMail", "");
+        number = info.getString("Number", "");
         buddyMail = info.getString("BuddyMail", "");
 
         EditText nameIn = (EditText) findViewById(R.id.nameInput);
@@ -44,6 +46,9 @@ public class Setup extends AppCompatActivity {
 
         EditText myMailIn = (EditText) findViewById(R.id.myMailInput);
         myMailIn.setText(myMail);
+
+        EditText numberIn = (EditText) findViewById(R.id.numberInput);
+        numberIn.setText(number);
 
         EditText buddyMailIn = (EditText) findViewById(R.id.buddyMailInput);
         buddyMailIn.setText(buddyMail);
@@ -62,6 +67,9 @@ public class Setup extends AppCompatActivity {
 
         EditText ageIn = (EditText) findViewById(R.id.ageInput);
         age = Integer.parseInt(ageIn.getText().toString());
+
+        EditText numberIn = (EditText) findViewById(R.id.numberInput);
+        number = numberIn.getText().toString();
 
         EditText weightIn = (EditText) findViewById(R.id.weightInput);
         weight = Integer.parseInt(weightIn.getText().toString());
@@ -101,6 +109,7 @@ public class Setup extends AppCompatActivity {
         edit.putString("Name", name).commit();
         edit.putString("Gender", gender).commit();
         edit.putString("MyMail", myMail).commit();
+        edit.putString("Number", number).commit();
         edit.putString("BuddyMail", buddyMail).commit();
         edit.putInt("Age", age).commit();
         edit.putInt("Weight", weight).commit();

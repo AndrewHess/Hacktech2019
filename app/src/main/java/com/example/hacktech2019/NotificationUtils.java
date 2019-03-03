@@ -1,5 +1,6 @@
 package com.example.hacktech2019;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,7 +8,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 public class NotificationUtils extends ContextWrapper {
 
@@ -15,13 +15,13 @@ public class NotificationUtils extends ContextWrapper {
     public static final String ANDROID_CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
     public static final String ANDROID_CHANNEL_NAME = "ANDROID CHANNEL";
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.O)
     public NotificationUtils(Context base) {
         super(base);
         createChannels();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.O)
     public void createChannels() {
 
         // create android channel
@@ -47,7 +47,7 @@ public class NotificationUtils extends ContextWrapper {
         return mManager;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.O)
     public Notification.Builder getAndroidChannelNotification(String title, String body, int icon) {
         return new Notification.Builder(getApplicationContext(), ANDROID_CHANNEL_ID)
                 .setContentTitle(title)

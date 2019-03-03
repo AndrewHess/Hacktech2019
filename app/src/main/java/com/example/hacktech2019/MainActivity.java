@@ -1,11 +1,11 @@
 package com.example.hacktech2019;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +25,11 @@ public class MainActivity extends AppCompatActivity {
     private String ALC_AMOUNT_KEY = "alc";
     private String WATER_AMOUNT_KEY = "water";
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         //getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", true).commit();
         // Handle is first run case
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             //Toast.makeText(MainActivity.this, "First Run", Toast.LENGTH_LONG).show();
         }
-        setContentView(R.layout.activity_main);
 
         if (savedInstanceState != null) {
             alcAmount = savedInstanceState.getInt(ALC_AMOUNT_KEY);
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Increment the alcohol counter.
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.O)
     public void onAlcoholClick(View view) {
         // Get the counter.
         alcAmount++;
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.O)
     private void makeNote() {
         String notice = "You had " + alcAmount + " standard drinks, and only " + waterAmount + " glasses of water!";
         Notification.Builder nb = mNotificationUtils.

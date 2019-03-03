@@ -34,7 +34,7 @@ public class SMSActivity extends AppCompatActivity {
             }
         }
 
-        number = getSharedPreferences("USER_INFO", MODE_PRIVATE).getString("BuddyMail", "");
+        number = getSharedPreferences("USER_INFO", MODE_PRIVATE).getString("Number", "");
         nShots = getIntent().getExtras().getInt(MainActivity.EXTRA_CALL);
         text();
     }
