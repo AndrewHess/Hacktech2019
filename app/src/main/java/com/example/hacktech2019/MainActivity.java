@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
     public void onAlcoholClick(View view) {
         checkForReset();
         timeLastDrink = getCurrentTime();
+        TextView last = (TextView) findViewById(R.id.lastDrink);
+        last.setText("Last Drink taken at: " + timeLastDrink);
 
         // Get the counter.
         alcAmount++;
@@ -240,6 +242,9 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("alcoholCount", alcAmount).commit();
         editor.putInt("waterCount", waterAmount).commit();
         editor.apply();
+
+        TextView last = (TextView) findViewById(R.id.lastDrink);
+        last.setText("");
 
         updateScreen();
     }
