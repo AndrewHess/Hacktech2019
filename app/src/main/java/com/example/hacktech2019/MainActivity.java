@@ -3,11 +3,14 @@ package com.example.hacktech2019;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String ALC_AMOUNT_KEY = "alc";
     public final static String WATER_AMOUNT_KEY = "water";
+
+    public String timeLastDrink;
+    public String timeLastWater;
 
     @TargetApi(Build.VERSION_CODES.O)
     @Override
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @TargetApi(Build.VERSION_CODES.O)
     public void onAlcoholClick(View view) {
+        timeLastDrink = getCurrentTime();
         // Get the counter.
         alcAmount++;
         if (alcAmount % drinksPerNote == drinksPerNote - 1) {
@@ -82,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
      * Increment the water counter.
      */
     public void onWaterClick(View view) {
+        timeLastWater = getCurrentTime();
         // Get the counter.
         waterAmount++;
         updateScreen();
@@ -115,6 +123,13 @@ public class MainActivity extends AppCompatActivity {
         Notification.Builder nb = mNotificationUtils.
                 getAndroidChannelNotification("Alcohol notice", notice, R.drawable.drinky_icon);
         mNotificationUtils.getManager().notify(101, nb.build());
+    }
+
+    public String getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm");
+        String strDate = mdformat.format(calendar.getTime());
+        return(strDate);
     }
 }
 
