@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import static java.util.Calendar.AM;
 import static java.util.Calendar.PM;
@@ -29,13 +30,17 @@ public class MainActivity extends AppCompatActivity {
     private double bac;
 
     public final static String ALC_AMOUNT_KEY = "alc";
+    public final static String BAC_AMOUNT_KEY = "bac";
     public final static String WATER_AMOUNT_KEY = "water";
+    public final static String GRAPH_KEY = "graph";
+    public final static String BAC_KEY= "bacs";
+
+    ArrayList<String> times = new ArrayList<>();
+    ArrayList<String> bacs = new ArrayList<>();
 
     public double startTime = 1.0;
     public String timeLastDrink;
     public String timeLastWater;
-
-    boolean prevTimeBeforeNoon;
     int prevAMPM = Calendar.PM;
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -79,22 +84,19 @@ public class MainActivity extends AppCompatActivity {
         return (double) Integer.parseInt(parts[0]) + ((double) Integer.parseInt(parts[1])) / 60.0;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateBAC();
-
-    }
-
     /**
      * Increment the alcohol counter.
      */
     @TargetApi(Build.VERSION_CODES.O)
     public void onAlcoholClick(View view) {
+        checkForReset();
         timeLastDrink = getCurrentTime();
+
         // Get the counter.
         alcAmount++;
         updateBAC();
+        times.add(Double.toString(parseTime(getFastTime())));
+        bacs.add(Double.toString(bac));
 
         if (alcAmount == 1) {
             startTime = parseTime(timeLastDrink);
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         if (alcAmount % drinksPerNote == drinksPerNote - 1) {
             makeNote();
         }
-        if (alcAmount % drinksPerText == drinksPerText - 1) {
+        if (alcAmount % drinksPerText == drinksPerText - 1 || alcAmount > waterAmount + 2) {
             textBuddy();
         }
         if (alcAmount % drinksPerEmail == drinksPerEmail - 1) {
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
      * Increment the water counter.
      */
     public void onWaterClick(View view) {
+        checkForReset();
         timeLastWater = getCurrentTime();
         // Get the counter.
         waterAmount++;
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         double h = parseTime(getCurrentTime()) - startTime;
         if (h < 0) { h += 12; }
 
+        Toast.makeText(this, "Alc: " + alcAmount + ",Weight: " + w + ",R: " + r + ",time: " + h, Toast.LENGTH_LONG).show();
         bac = this.BAC(alcAmount, w, r, h);
     }
 
@@ -141,13 +145,10 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.water_counter)).setText(Integer.toString(waterAmount));
     }
 
-    public double bloodAlcohol() {
-        return 0;
-    }
-
     public void textBuddy() {
         Intent textIntent = new Intent(this, SMSActivity.class);
         textIntent.putExtra(ALC_AMOUNT_KEY, alcAmount);
+        textIntent.putExtra(BAC_AMOUNT_KEY, bac);
         startActivity(textIntent);
     }
 
@@ -155,12 +156,14 @@ public class MainActivity extends AppCompatActivity {
         Intent emailIntent = new Intent(this, EmailActivity.class);
         emailIntent.putExtra(ALC_AMOUNT_KEY, alcAmount);
         emailIntent.putExtra(WATER_AMOUNT_KEY, alcAmount);
+        emailIntent.putExtra(BAC_AMOUNT_KEY, bac);
         startActivity(emailIntent);
     }
 
     @TargetApi(Build.VERSION_CODES.O)
     private void makeNote() {
-        String notice = "You had " + alcAmount + " standard drinks, and only " + waterAmount + " glasses of water!";
+        String notice = "You had " + alcAmount + " standard drinks, and only " + waterAmount +
+                " glasses of water! Estimated BAC: " + (bac * 100) + "%";
         Notification.Builder nb = mNotificationUtils.
                 getAndroidChannelNotification("Alcohol notice", notice, R.drawable.drinky_icon);
         mNotificationUtils.getManager().notify(101, nb.build());
@@ -173,10 +176,17 @@ public class MainActivity extends AppCompatActivity {
         return (strDate);
     }
 
+    public static String getFastTime() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("mm:ss");
+        String strDate = mdformat.format(calendar.getTime());
+        return (strDate);
+    }
+
     private void checkForReset(){
         Calendar calendar = Calendar.getInstance();
         int currentAMPM = calendar.get(Calendar.AM_PM);
-        if(currentAMPM == PM && prevAMPM == AM){
+        if (currentAMPM == PM && prevAMPM == AM){
             resetStats();
         }
         prevAMPM = currentAMPM;
@@ -187,6 +197,16 @@ public class MainActivity extends AppCompatActivity {
         waterAmount = 0;
         timeLastDrink = "";
         timeLastWater = "";
+        times.clear();
+        bacs.clear();
+        updateScreen();
+    }
+
+    public void onAnalyticsClick(View view) {
+        Intent graphIntent = new Intent(this, AnalyticsActivity.class);
+        graphIntent.putStringArrayListExtra(GRAPH_KEY, times);
+        graphIntent.putStringArrayListExtra(BAC_KEY, bacs);
+        startActivity(graphIntent);
     }
 }
 

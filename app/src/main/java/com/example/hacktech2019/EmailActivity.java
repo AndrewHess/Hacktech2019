@@ -13,6 +13,7 @@ public class EmailActivity extends AppCompatActivity {
     private SharedPreferences info;
     int nWater;
     int nAlc;
+    double bac;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,7 @@ public class EmailActivity extends AppCompatActivity {
         Intent emIntent = getIntent();
         nAlc = emIntent.getExtras().getInt(MainActivity.ALC_AMOUNT_KEY);
         nWater = emIntent.getExtras().getInt(MainActivity.WATER_AMOUNT_KEY);
+        bac = emIntent.getExtras().getDouble(MainActivity.BAC_AMOUNT_KEY);
         emailBuddy();
         finish();
     }
@@ -40,7 +42,8 @@ public class EmailActivity extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Update on " + drunkName);
         String emailBodyDrinks = "Dear friend,\n\n" + drunkName + " has consumed " + nAlc +
-                " drinks tonight, as well as " + nWater + " cups of water.\n\nThank you for " +
+                " drinks tonight, as well as " + nWater + " cups of water. Their estimated bac is " + (bac * 100) + "%" +
+                "\n\nThank you for " +
                 "keeping an eye on their safety.";
         emailIntent.putExtra(Intent.EXTRA_TEXT, emailBodyDrinks);
 
