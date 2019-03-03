@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 
+import static java.util.Calendar.AM;
+import static java.util.Calendar.PM;
+
 public class MainActivity extends AppCompatActivity {
 
     private final static int drinksPerNote = 8;
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     public double startTime = 1.0;
     public String timeLastDrink;
     public String timeLastWater;
+
+    boolean prevTimeBeforeNoon;
+    int prevAMPM = Calendar.PM;
 
     @TargetApi(Build.VERSION_CODES.O)
     @Override
@@ -164,6 +170,22 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm");
         String strDate = mdformat.format(calendar.getTime());
         return (strDate);
+    }
+
+    private void checkForReset(){
+        Calendar calendar = Calendar.getInstance();
+        int currentAMPM = calendar.get(Calendar.AM_PM);
+        if(currentAMPM == PM && prevAMPM == AM){
+            resetStats();
+        }
+        prevAMPM = currentAMPM;
+    }
+
+    private void resetStats(){
+        alcAmount = 0;
+        waterAmount = 0;
+        timeLastDrink = "";
+        timeLastWater = "";
     }
 }
 
