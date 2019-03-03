@@ -2,7 +2,6 @@ package com.example.hacktech2019;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.Calendar;
@@ -14,14 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -173,12 +165,12 @@ public class MainActivity extends AppCompatActivity {
         double h = parseTime(getCurrentTime()) - startTime;
         if (h < 0) { h += 12; }
 
-        Toast.makeText(this, "Alc: " + alcAmount + ",Weight: " + w + ",R: " + r + ",time: " + h, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Alc: " + alcAmount + ",Weight: " + w + ",R: " + r + ",time: " + h, Toast.LENGTH_LONG).show();
         bac = this.BAC(alcAmount, w, r, h);
     }
 
     public static double BAC(int a, int w, double r, double h) {
-       return ((double) a * 5.14 / ((double) w) * r) - 0.15 * h;
+       return ((double) a * 5.14 / ((double) w) * r);
     }
 
     public void updateScreen() {
@@ -233,6 +225,9 @@ public class MainActivity extends AppCompatActivity {
         prevAMPM = currentAMPM;
     }
 
+    public void reset(View view) {
+        resetStats();
+    }
     private void resetStats(){
         alcAmount = 0;
         waterAmount = 0;
@@ -240,6 +235,12 @@ public class MainActivity extends AppCompatActivity {
         timeLastWater = "";
         times.clear();
         bacs.clear();
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("alcoholCount", alcAmount).commit();
+        editor.putInt("waterCount", waterAmount).commit();
+        editor.apply();
+
         updateScreen();
     }
 
