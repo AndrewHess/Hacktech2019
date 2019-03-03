@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 
@@ -22,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
     private int waterAmount = 0;
     private int alcAmount = 0;
+    private double bac;
 
     public final static String ALC_AMOUNT_KEY = "alc";
     public final static String WATER_AMOUNT_KEY = "water";
 
+    public double startTime = 1.0;
     public String timeLastDrink;
     public String timeLastWater;
 
@@ -65,6 +68,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, Setup.class));
     }
 
+    public static double parseTime(String time) {
+        String[] parts = time.split(":");
+        return (double) Integer.parseInt(parts[0]) + ((double) Integer.parseInt(parts[1])) / 60.0;
+    }
+
+    @Override
+    protected void onResume() {
+        updateBAC();
+
+    }
+
     /**
      * Increment the alcohol counter.
      */
@@ -73,6 +87,12 @@ public class MainActivity extends AppCompatActivity {
         timeLastDrink = getCurrentTime();
         // Get the counter.
         alcAmount++;
+        updateBAC();
+
+        if (alcAmount == 1) {
+            startTime = parseTime(timeLastDrink);
+        }
+
         if (alcAmount % drinksPerNote == drinksPerNote - 1) {
             makeNote();
         }
@@ -93,6 +113,20 @@ public class MainActivity extends AppCompatActivity {
         // Get the counter.
         waterAmount++;
         updateScreen();
+    }
+
+    private void updateBAC() {
+        int w = getSharedPreferences("USER_INFO", MODE_PRIVATE).getInt("Weight", 0);
+        String gender = getSharedPreferences("USER_INFO", MODE_PRIVATE).getString("Gender", "");
+        double r = (gender.equals("male")) ? 0.73 : 0.66;
+        double h = parseTime(getCurrentTime()) - startTime;
+        if (h < 0) { h += 12; }
+
+        bac = this.BAC(alcAmount, w, r, h);
+    }
+
+    public static double BAC(int a, int w, double r, double h) {
+       return ((double) a * 5.14 / ((double) w) * r) - 0.15 * h;
     }
 
     public void updateScreen() {
@@ -125,11 +159,11 @@ public class MainActivity extends AppCompatActivity {
         mNotificationUtils.getManager().notify(101, nb.build());
     }
 
-    public String getCurrentTime() {
+    public static String getCurrentTime() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm");
         String strDate = mdformat.format(calendar.getTime());
-        return(strDate);
+        return (strDate);
     }
 }
 
