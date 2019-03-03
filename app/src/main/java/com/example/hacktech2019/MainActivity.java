@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
             //Toast.makeText(MainActivity.this, "First Run", Toast.LENGTH_LONG).show();
         }
         setContentView(R.layout.activity_main);
-
     }
 
     public void onSettingsClick(View view) {
