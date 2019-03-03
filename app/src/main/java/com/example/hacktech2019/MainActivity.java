@@ -85,4 +85,10 @@ public class MainActivity extends AppCompatActivity {
                 getAndroidChannelNotification("Alcohol notice", notice, R.drawable.drinky_icon);
         mNotificationUtils.getManager().notify(101, nb.build());
     }
+
+    /** Send an email to the buddy. */
+    public void emailBuddy(View view) {
+        // Get the email.
+
+    }
 }
