@@ -22,6 +22,7 @@
         <activity android:name=".SMSActivity" />
         <activity
             android:name=".Setup"
+            android:noHistory="true"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

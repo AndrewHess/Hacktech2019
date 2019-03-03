@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(emailIntent);
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
+    //@TargetApi(Build.VERSION_CODES.O)
     private void makeNote() {
         String notice = "You had " + alcAmount + " standard drinks, and only " + waterAmount +
                 " glasses of water! Estimated BAC: " + (bac * 100) + "%";

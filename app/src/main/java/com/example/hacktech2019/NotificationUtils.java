@@ -11,6 +11,7 @@ import android.os.Build;
 
 public class NotificationUtils extends ContextWrapper {
 
+
     private NotificationManager mManager;
     public static final String ANDROID_CHANNEL_ID = "com.chikeandroid.tutsplustalerts.ANDROID";
     public static final String ANDROID_CHANNEL_NAME = "ANDROID CHANNEL";
